@@ -1,0 +1,1 @@
+C:\Users\Vincenzo\Documents\Visual Studio 2015\Projects\TODO-UWP+A4D\TODO-UWP+A4D\TODO-UWP+A4D.csproj;x86

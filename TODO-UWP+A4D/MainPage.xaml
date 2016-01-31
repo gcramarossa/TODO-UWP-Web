@@ -1,0 +1,36 @@
+﻿<Page
+    x:Class="TODO_UWP_A4D.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TODO_UWP_A4D"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Pivot>
+        <PivotItem Header="Settings" Margin="12,0,12,-48">
+            <StackPanel Width="616" Margin="0,0,0,140">
+                <StackPanel Height="30" Orientation="Horizontal">
+                    <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Website" Width="93" FontSize="25"/>
+                    <TextBox x:Name="websiteURI" TextWrapping="Wrap" Text="" Margin="0,0,0,-2" FontSize="15" PlaceholderText="http://www.domain.tld/" HorizontalAlignment="Center" VerticalAlignment="Center" Width="256"/>
+                </StackPanel>
+                <StackPanel Height="30" Orientation="Horizontal">
+                    <TextBlock x:Name="uid" TextWrapping="Wrap" Text="User ID" Width="93" FontSize="25"/>
+                    <TextBox x:Name="uidbox" TextWrapping="Wrap" Text="" Margin="0,0,0,-2" FontSize="15" PlaceholderText="Your UID" HorizontalAlignment="Center" VerticalAlignment="Center" Width="256" IsReadOnly="True"/>
+                </StackPanel>
+                <Button x:Name="confirmButton" Content="Launch Program" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="345" Click="confirmButton_Click"/>
+                <TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text="In order to use this application, you have to insert a website that contains the files included in &quot;Website&quot; folder. Make sure that the website is correct, because there aren't controls " Margin="0,0,271,0"/>
+            </StackPanel>
+        </PivotItem>
+        <PivotItem x:Name="applicationPivot" Header="Application" Visibility="Collapsed">
+            <StackPanel Height="640" VerticalAlignment="Top" Margin="0,0,0,-280">
+                <RichEditBox x:Name="textTask" Header="" Height="70" PlaceholderText="Insert Text Here" Background="Black"/>
+                <Button x:Name="button" Content="Add task" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="button_Click"/>
+                <ListView x:Name="listView" Header="Tasks" Height="154" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+                <WebView x:Name="website" Height="100" Visibility="Collapsed"/>
+
+            </StackPanel>
+        </PivotItem>
+
+    </Pivot>
+
+</Page>
