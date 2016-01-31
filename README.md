@@ -1,2 +1,2 @@
 # TODO-UWP-Web
-A simple online to-do list and a UWP application
+A simple online to-do list and an UWP application
