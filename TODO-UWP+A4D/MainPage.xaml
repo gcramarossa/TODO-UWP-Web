@@ -18,7 +18,7 @@
                     <TextBox x:Name="uidbox" TextWrapping="Wrap" Text="" Margin="0,0,0,-2" FontSize="15" PlaceholderText="Your UID" HorizontalAlignment="Center" VerticalAlignment="Center" Width="256" IsReadOnly="True"/>
                 </StackPanel>
                 <Button x:Name="confirmButton" Content="Launch Program" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="345" Click="confirmButton_Click"/>
-                <TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text="In order to use this application, you have to insert a website that contains the files included in &quot;Website&quot; folder. Make sure that the website is correct, because there aren't controls " Margin="0,0,271,0"/>
+                <TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text="In order to use this application, you have to insert a website that contains the files included in &quot;Website&quot; folder." Margin="0,0,271,0"/>
             </StackPanel>
         </PivotItem>
         <PivotItem x:Name="applicationPivot" Header="Application" Visibility="Collapsed">
@@ -26,7 +26,6 @@
                 <RichEditBox x:Name="textTask" Header="" Height="70" PlaceholderText="Insert Text Here" Background="Black"/>
                 <Button x:Name="button" Content="Add task" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="button_Click"/>
                 <ListView x:Name="listView" Header="Tasks" Height="154" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
-                <WebView x:Name="website" Height="100" Visibility="Collapsed"/>
 
             </StackPanel>
         </PivotItem>

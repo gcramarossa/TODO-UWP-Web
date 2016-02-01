@@ -14,6 +14,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.Web.Http;
 
 // Il modello di elemento per la pagina vuota è documentato all'indirizzo http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x410
 
@@ -28,7 +29,7 @@ namespace TODO_UWP_A4D
         /// Contains the last list box item selected 
         /// </summary>
         private ListBoxItem _lastSelectedListBox;
-        private string _websiteContent = "";
+        private HttpClient _webClient = new HttpClient();
         public MainPage()
         {
             this.InitializeComponent();
@@ -50,7 +51,7 @@ namespace TODO_UWP_A4D
             string content = await Windows.Storage.FileIO.ReadTextAsync(uidFile);
             if (content == "")
             {
-                uidbox.Text = _generateUID(25);
+                uidbox.Text = GenerateUID(25);
                 await Windows.Storage.FileIO.WriteTextAsync(uidFile, uidbox.Text);
             }
             else
@@ -65,7 +66,7 @@ namespace TODO_UWP_A4D
         /// </summary>
         /// <param name="maxValues">the number of the values</param>
         /// <returns></returns>
-        private string _generateUID(byte maxValues)
+        private string GenerateUID(byte maxValues)
         {
 
             char[] letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
@@ -113,10 +114,10 @@ namespace TODO_UWP_A4D
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MenuRemove(object sender, RoutedEventArgs e)
+        private async void MenuRemove(object sender, RoutedEventArgs e)
         {
             listView.Items.RemoveAt(listView.Items.IndexOf(_lastSelectedListBox));
-            website.Source = new Uri(websiteURI.Text + "api/removeTask.php?taskID=" + _lastSelectedListBox.Name + "&userID=" + uidbox.Text);
+            string response = await _webClient.GetStringAsync(new Uri(websiteURI.Text + "api/removeTask.php?taskID=" + _lastSelectedListBox.Name + "&userID=" + uidbox.Text));
         }
 
         /// <summary>
@@ -124,21 +125,21 @@ namespace TODO_UWP_A4D
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MenuMarkAsCompleted(object sender, RoutedEventArgs e)
+        private async void MenuMarkAsCompleted(object sender, RoutedEventArgs e)
         {
             _lastSelectedListBox.Background = new SolidColorBrush(Colors.Green);
-            website.Source = new Uri(websiteURI.Text + "api/editStatusTask.php?taskID=" + _lastSelectedListBox.Name + "&userID=" + uidbox.Text + "&status=1");
+            string response = await _webClient.GetStringAsync(new Uri(websiteURI.Text + "api/editStatusTask.php?taskID=" + _lastSelectedListBox.Name + "&userID=" + uidbox.Text + "&status=1"));
         }
-        
+
         /// <summary>
         /// Mark a task as incomplete
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MenuMarkIncomplete(object sender, RoutedEventArgs e)
+        private async void MenuMarkIncomplete(object sender, RoutedEventArgs e)
         {
             _lastSelectedListBox.Background = new SolidColorBrush(Colors.Transparent);
-            website.Source = new Uri(websiteURI.Text + "api/editStatusTask.php?taskID=" + _lastSelectedListBox.Name + "&userID=" + uidbox.Text + "&status=0");
+            string response = await _webClient.GetStringAsync(new Uri(websiteURI.Text + "api/editStatusTask.php?taskID=" + _lastSelectedListBox.Name + "&userID=" + uidbox.Text + "&status=0"));
         }
 
         /// <summary>
@@ -154,26 +155,8 @@ namespace TODO_UWP_A4D
             value = value.Trim();
             if (value != "")
             {
-                website.Source = new Uri(websiteURI.Text + "api/saveTask.php?task=" + value + "&userID=" + uidbox.Text);
-                string oldID = _websiteContent;
-                
-                // Wait until the website content is updated
-                do
-                {
-                    _websiteContent = await website.InvokeScriptAsync("eval", new string[] { "document.documentElement.outerHTML;" });
-                    
-                    /*
-                        The first time this app is launched, _websiteContent is filled with the content
-                        of the index page.
-                        For this reason, wait until the websitecontent is updated with the id of the task
-                    */
-
-                    while (!Regex.Match(_websiteContent, @"<html><head></head><body>([0-9]+)</body></html>").Success)
-                    {
-                        _websiteContent = await website.InvokeScriptAsync("eval", new string[] { "document.documentElement.outerHTML;" });
-                    }
-                } while (_websiteContent == oldID);
-                lbi.Name = HtmlUtilities.ConvertToText(_websiteContent);
+                string response = await _webClient.GetStringAsync(new Uri(websiteURI.Text + "api/saveTask.php?task=" + value + "&userID=" + uidbox.Text));
+                lbi.Name = response;
                 lbi.Content = value;
                 lbi.Width = Window.Current.Bounds.Width;
                 lbi.Tapped += ListBoxItem_Tapped;
@@ -185,14 +168,11 @@ namespace TODO_UWP_A4D
         /// <summary>
         /// Once a website is inserted. the listview is filled with the tasks created by the user
         /// </summary>
-        private async void _fillList()
+        private async void FillList()
         {
+            string response = await _webClient.GetStringAsync(new Uri(websiteURI.Text + "api/readTasks.php?userID=" + uidbox.Text));
 
-            website.Source = new Uri(websiteURI.Text + "api/readTasks.php?userID=" + uidbox.Text);
-            await Task.Delay(2000);
-            _websiteContent = await website.InvokeScriptAsync("eval", new string[] { "document.documentElement.outerHTML;" });
-            _websiteContent = HtmlUtilities.ConvertToText(_websiteContent);
-            string[] tasks = _websiteContent.Split(new string[] { "#ENDTASK#" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] tasks = response.Split(new string[] { "#ENDTASK#" }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var task in tasks)
             {
@@ -218,19 +198,29 @@ namespace TODO_UWP_A4D
         /// <param name="e"></param>
         private async void confirmButton_Click(object sender, RoutedEventArgs e)
         {
+            Windows.UI.Popups.MessageDialog showWarning = new Windows.UI.Popups.MessageDialog("");
+            showWarning.Options = Windows.UI.Popups.MessageDialogOptions.None;
             if (websiteURI.Text == "")
             {
-                Windows.UI.Popups.MessageDialog showWarning = new Windows.UI.Popups.MessageDialog("Please enter the program website before clicking the button");
-                showWarning.Options = Windows.UI.Popups.MessageDialogOptions.None;
+                showWarning.Content = "Please enter the program website before clicking the button";
                 await showWarning.ShowAsync();
             }
             else
             {
-                website.Source = new Uri(websiteURI.Text + "api/readTasks.php?userID=" + uidbox.Text);
-                _fillList();
-                websiteURI.IsReadOnly = true;
-                confirmButton.IsEnabled = false;
-                applicationPivot.Visibility = Visibility.Visible;
+                try
+                {
+                    string response = await _webClient.GetStringAsync(new Uri(websiteURI.Text + "api/success.php"));
+                    FillList();
+                    websiteURI.IsReadOnly = true;
+                    confirmButton.IsEnabled = false;
+                    applicationPivot.Visibility = Visibility.Visible;
+                }
+                catch (Exception webException)
+                {
+                    showWarning.Content = "The website that you have chosen is not the application website. Please select another website";
+                    await showWarning.ShowAsync();
+                }
+
             }
 
         }

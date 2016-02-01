@@ -22,7 +22,7 @@
     <AppXManifest Include="C:\Users\Vincenzo\Documents\Visual Studio 2015\Projects\TODO-UWP+A4D\TODO-UWP+A4D\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-01-31T22:45:22.021</Modified>
+      <Modified>2016-02-01T15:20:57.566</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
@@ -70,7 +70,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Vincenzo\Documents\Visual Studio 2015\Projects\TODO-UWP+A4D\TODO-UWP+A4D\bin\x86\Debug\Core\entrypoint\TODO-UWP+A4D.exe">
       <PackagePath>entrypoint\TODO-UWP+A4D.exe</PackagePath>
-      <Modified>2016-01-31T22:45:13.900</Modified>
+      <Modified>2016-02-01T15:20:52.887</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Vincenzo\Documents\Visual Studio 2015\Projects\TODO-UWP+A4D\TODO-UWP+A4D\bin\x86\Debug\Core\Microsoft.ApplicationInsights.dll">
       <PackagePath>Microsoft.ApplicationInsights.dll</PackagePath>
@@ -102,7 +102,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Vincenzo\Documents\Visual Studio 2015\Projects\TODO-UWP+A4D\TODO-UWP+A4D\bin\x86\Debug\Core\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2016-01-31T22:45:17.997</Modified>
+      <Modified>2016-02-01T14:56:57.773</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Vincenzo\Documents\Visual Studio 2015\Projects\TODO-UWP+A4D\TODO-UWP+A4D\bin\x86\Debug\Core\System.AppContext.dll">
       <PackagePath>System.AppContext.dll</PackagePath>
@@ -502,11 +502,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Vincenzo\Documents\Visual Studio 2015\Projects\TODO-UWP+A4D\TODO-UWP+A4D\bin\x86\Debug\Core\TODO-UWP+A4D.exe">
       <PackagePath>TODO-UWP+A4D.exe</PackagePath>
-      <Modified>2016-01-31T22:45:22.017</Modified>
+      <Modified>2016-02-01T15:20:57.562</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Vincenzo\Documents\Visual Studio 2015\Projects\TODO-UWP+A4D\TODO-UWP+A4D\bin\x86\Debug\Core\TODO-UWP+A4D.xr.xml">
       <PackagePath>TODO-UWP+A4D.xr.xml</PackagePath>
-      <Modified>2016-01-31T22:45:13.189</Modified>
+      <Modified>2016-02-01T14:05:34.527</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Vincenzo\Documents\Visual Studio 2015\Projects\TODO-UWP+A4D\TODO-UWP+A4D\bin\x86\Debug\Core\WinMetadata\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
